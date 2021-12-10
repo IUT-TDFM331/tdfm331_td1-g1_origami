@@ -75,9 +75,8 @@ public class ListApiServiceTest {
      */
     @Test
     public void removeMeetingWithSuccess() {
-        // Get first Meeting from list
-        Meeting meetingToRemove = service.getListMeetings().get(0);
-        service.getListMeetings().remove(meetingToRemove);
-        Assert.assertFalse(service.getListMeetings().contains(meetingToRemove));
+        Meeting meetingToRemoveM1 = service.getListMeetings().get(0);
+        service.removeMeeting(meetingToRemoveM1);
+        Assert.assertFalse(service.getListMeetings().contains(meetingToRemoveM1));
     }
 }
