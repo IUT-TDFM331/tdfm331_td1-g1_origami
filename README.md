@@ -46,6 +46,8 @@ codes couvert/non couverts par les tests.
 
 ## Contributors 
 ```java
-//TODO
+Lebrun Mathieu
+Duong Thi Thanh Tu
+Gulasin-Triay Michel
 ```
 
