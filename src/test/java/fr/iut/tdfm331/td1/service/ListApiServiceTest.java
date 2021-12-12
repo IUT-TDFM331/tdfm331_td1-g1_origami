@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -81,7 +83,31 @@ public class ListApiServiceTest {
         service.removeMeeting(meetingToRemoveM1);
         Assert.assertFalse(service.getListMeetings().contains(meetingToRemoveM1));
     }
+    /**
+     * Test to check if a selected Meeting is correctly removed from list
+     */
+    @Test
+    public void removeMeeting(){
 
+        // Create list Employee
+        List<Employee> listEmployees = Arrays.asList(new Employee("Baptiste", "baptiste@lamzone.com", 4),
+                new Employee("Fanny", "fanny@lamzone.com", 10),
+                new Employee("Vincent", "vincent@lamzone.com", 22));
+
+        // Create list Meeting
+        Meeting newMeeting = new Meeting("Réunion d'avancement",
+                "Planck",
+                "12/11/20",
+                "15:30",
+                "16:00",
+                "Revues des dernières actions",
+                listEmployees);
+
+        // Add Meeting
+        service.addMeeting(newMeeting);
+        service.removeMeeting(newMeeting);
+        Assert.assertFalse(service.getListMeetings().contains(newMeeting));
+    }
     /**
      * Test when the meeting exists
      */
@@ -103,7 +129,7 @@ public class ListApiServiceTest {
         service.addMeeting(newMeeting);
         try {
             Meeting trouve = service.findByObject("Réunion d'avancement");
-            Assert.assertEquals(trouve, newMeeting);
+            assertEquals(trouve, newMeeting);
         } catch (MeetingNotFound e) {
             e.printStackTrace();
         }
@@ -114,28 +140,14 @@ public class ListApiServiceTest {
      */
     @Test
     public void findByObjectWithFail() {
-        String message="";
-        // Create list Employee
-        List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
-                new Employee("Florent", "tato@poulos.com", 1),
-                new Employee("Leo", "maltoni@spaguetti.com", 17));
-
-        // Create list Meeting
-        Meeting newMeeting = new Meeting("Réunion d'avancement",
-                "AFK ROOM",
-                "21/12/21",
-                "10:30",
-                "12:00",
-                "Revues des dernières stratégies",
-                listEmployees);
-        // Add Meeting
-        service.addMeeting(newMeeting);
+        String fauxMeeting= "Meeting 2";
+        Meeting meetingToFound = service.getListMeetings().get(2);
         try {
-            Meeting trouve = service.findByObject("Réunion d'avancement");
+            assertNotEquals(meetingToFound, service.findByObject(fauxMeeting));
         } catch (MeetingNotFound e) {
-            message = e.getMessage();
+            e.printStackTrace();
         }
-        Assert.assertEquals(message, new MeetingNotFound().getMessage());
+
     }
 
     /**
