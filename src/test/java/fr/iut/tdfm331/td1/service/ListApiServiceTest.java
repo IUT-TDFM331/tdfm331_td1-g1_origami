@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -123,4 +125,45 @@ public class ListApiServiceTest {
         }
 
     }
+
+    /**
+     * Test when the employee doesn't exists
+     */
+    @Test
+    public void findByNameWithFail(){
+        String message="";
+        //Create new Employee
+        Employee employee1=new Employee("Fanny", "fanny@lamzone.com", 10);
+        // Create list Employee
+        List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
+                new Employee("Florent", "tato@poulos.com", 1),
+                new Employee("Leo", "maltoni@spaguetti.com", 17));
+
+        // Create list Meeting
+        Meeting newMeeting = new Meeting("Réunion d'avancement",
+                "AFK ROOM",
+                "21/12/21",
+                "10:30",
+                "12:00",
+                "Revues des dernières stratégies",
+                listEmployees);
+        // Add Meeting
+        service.addMeeting(newMeeting);
+        try
+        {
+            Employee found = service.findByName("Fanny");
+            Assert.assertEquals(found, employee1);
+        }
+        catch (EmployeeNotFound e)
+        {
+            message = e.getMessage();
+        }
+        Assert.assertEquals(message, new MeetingNotFound().getMessage());
+    }
+
+
+
+
+
+
 }
