@@ -133,38 +133,24 @@ public class ListApiServiceTest {
     }
 
     /**
+     * Test when the employee exists
+     */
+    @Test
+    public void findByNameWithSuccess() throws EmployeeNotFound{
+            Assert.assertEquals(service.findByName(service.getListEmployees().get(0).getName()), service.getListEmployees().get(0));
+    }
+    /**
      * Test when the employee doesn't exists
      */
     @Test
-    public void findByNameWithFail(){
-        String message="";
-        //Create new Employee
-        Employee employee1=new Employee("Fanny", "fanny@lamzone.com", 10);
-        // Create list Employee
-        List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
-                new Employee("Florent", "tato@poulos.com", 1),
-                new Employee("Leo", "maltoni@spaguetti.com", 17));
+    public void findByNameWithFail()  {
+        String nom= "Tato";
 
-        // Create list Meeting
-        Meeting newMeeting = new Meeting("Réunion d'avancement",
-                "AFK ROOM",
-                "21/12/21",
-                "10:30",
-                "12:00",
-                "Revues des dernières stratégies",
-                listEmployees);
-        // Add Meeting
-        service.addMeeting(newMeeting);
-        try
-        {
-            Employee found = service.findByName("Fanny");
-            Assert.assertEquals(found, employee1);
+        try {
+            Assert.assertNotEquals(service.findByName(nom), service.getListEmployees().get(2).getName());
+        } catch (EmployeeNotFound e) {
+            e.printStackTrace();
         }
-        catch (EmployeeNotFound e)
-        {
-            message = e.getMessage();
-        }
-        Assert.assertEquals(message, new MeetingNotFound().getMessage());
     }
 
 
