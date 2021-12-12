@@ -80,6 +80,9 @@ public class ListApiServiceTest {
         Assert.assertFalse(service.getListMeetings().contains(meetingToRemoveM1));
     }
 
+    /**
+     * Test when the meeting exists
+     */
     @Test
     public void findByObjectWithSuccess(){
         List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
@@ -102,5 +105,34 @@ public class ListApiServiceTest {
         } catch (MeetingNotFound e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Test when the meeting doesn't exists
+     */
+    @Test
+    public void findByObjectWithFail() {
+        String message="";
+        // Create list Employee
+        List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
+                new Employee("Florent", "tato@poulos.com", 1),
+                new Employee("Leo", "maltoni@spaguetti.com", 17));
+
+        // Create list Meeting
+        Meeting newMeeting = new Meeting("Réunion d'avancement",
+                "AFK ROOM",
+                "21/12/21",
+                "10:30",
+                "12:00",
+                "Revues des dernières stratégies",
+                listEmployees);
+        // Add Meeting
+        service.addMeeting(newMeeting);
+        try {
+            Meeting trouve = service.findByObject("Réunion d'avancement");
+        } catch (MeetingNotFound e) {
+            message = e.getMessage();
+        }
+        Assert.assertEquals(message, new MeetingNotFound().getMessage());
     }
 }
