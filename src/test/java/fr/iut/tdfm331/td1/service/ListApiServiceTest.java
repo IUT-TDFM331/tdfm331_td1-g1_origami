@@ -112,27 +112,9 @@ public class ListApiServiceTest {
      * Test when the meeting exists
      */
     @Test
-    public void findByObjectWithSuccess(){
-        List<Employee> listEmployees = Arrays.asList(new Employee("Teo", "teo@lazon.com", 24),
-                new Employee("Florent", "tato@poulos.com", 1),
-                new Employee("Leo", "maltoni@spaguetti.com", 17));
-
-        // Create list Meeting
-        Meeting newMeeting = new Meeting("Réunion d'avancement",
-                "AFK ROOM",
-                "21/12/21",
-                "10:30",
-                "12:00",
-                "Revues des dernières stratégies",
-                listEmployees);
-        // Add Meeting
-        service.addMeeting(newMeeting);
-        try {
-            Meeting trouve = service.findByObject("Réunion d'avancement");
-            assertEquals(trouve, newMeeting);
-        } catch (MeetingNotFound e) {
-            e.printStackTrace();
-        }
+    public void findByObjectWithSuccess() throws MeetingNotFound {
+        Meeting searchMeeting = service.getListMeetings().get(1);
+        assertEquals(searchMeeting, service.findByObject(service.getListMeetings().get(1).getObjectMeeting()));
     }
 
     /**
